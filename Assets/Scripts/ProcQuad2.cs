@@ -11,10 +11,14 @@ public class ProcQuad2 : MonoBehaviour
     [SerializeField] private MeshFilter m_MeshFilter;
     [SerializeField] private bool m_SupportLight;
 
+    List<Vector3> vertices = new List<Vector3>();
+    List<Vector3> normals = new List<Vector3>();
+    List<Vector2> uv = new List<Vector2>();
+    List<int> indices = new List<int>();
+
     // Start is called before the first frame update
     void Start()
     {
-        BuildMesh();
     }
 
     private void Update()
@@ -24,10 +28,10 @@ public class ProcQuad2 : MonoBehaviour
 
     private void BuildMesh()
     {
-        List<Vector3> vertices = new List<Vector3>();
-        List<Vector3> normals = new List<Vector3>();
-        List<Vector2> uv = new List<Vector2>();
-        List<int> indices = new List<int>();
+        vertices.Clear();
+        normals.Clear();
+        uv.Clear();
+        indices.Clear();
 
         float segmentSize = m_Size / m_Segment;
         List<float> offsetYForXPlane = new List<float>();
@@ -53,6 +57,15 @@ public class ProcQuad2 : MonoBehaviour
                     int p2 = vertices.Count - 1; // 6
                     int p3 = vertices.Count - pointsPerRow - 1; // 1
                     indices.AddRange(new List<int> { p0, p1, p2, p2, p3, p0 });
+
+                    var realNormal = Vector3.Cross(vertices[p1] - vertices[p0], vertices[p2] - vertices[p0]).normalized;
+                    normals[p0] = realNormal;
+                    normals[p1] = realNormal;
+                    if (x == m_Segment)
+                    {
+                        normals[p2] = realNormal;
+                        normals[p3] = realNormal;
+                    }
                 }
             }
         }
@@ -68,5 +81,13 @@ public class ProcQuad2 : MonoBehaviour
         mesh.RecalculateBounds();
 
         m_MeshFilter.sharedMesh = mesh;
+    }
+
+    private void OnDrawGizmos()
+    {
+        for (int i = 0; i < vertices.Count; i++)
+        {
+            Gizmos.DrawRay(vertices[i], normals[i] * 0.1f);
+        }
     }
 }

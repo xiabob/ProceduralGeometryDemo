@@ -87,6 +87,7 @@ public class ProcQuad2 : MonoBehaviour
     {
         for (int i = 0; i < vertices.Count; i++)
         {
+            Gizmos.color = Color.blue;
             Gizmos.DrawRay(vertices[i], normals[i] * 0.1f);
         }
     }

@@ -47,7 +47,7 @@ public class ProcCylinderCream : MonoBehaviour
         for (int i = 0; i <= m_HeightSegmentCount; i++)
         {
             float progress = i * 1.0f / m_HeightSegmentCount;
-            var centerPos = Vector3.up * progress * m_Height;
+            var centerPos = Vector3.left * progress * m_Height;
             var radius = m_RadiusCurve.Evaluate(progress) * m_Radius;
             var offset = ringVertexOffset * i;
             var concaveValue = m_CreamConcaveValueCurve.Evaluate(progress) * m_CreamConcaveValue;
@@ -55,11 +55,11 @@ public class ProcCylinderCream : MonoBehaviour
 
             if (i == 0)
             {
-                BuildCap(m_RadialSegmentCount, centerPos, radius, false);
+                BuildCap(m_RadialSegmentCount, centerPos, radius, true);
             }
             else if (i == m_HeightSegmentCount)
             {
-                BuildCap(m_RadialSegmentCount, centerPos, radius, true);
+                BuildCap(m_RadialSegmentCount, centerPos, radius, false);
             }
         }
 
@@ -81,8 +81,8 @@ public class ProcCylinderCream : MonoBehaviour
 
             float angle = anglePerSegment * i + offset;
             Vector3 unitPosition = Vector3.zero;
-            unitPosition.x = Mathf.Cos(angle);
-            unitPosition.z = Mathf.Sin(angle);
+            unitPosition.z = Mathf.Cos(angle);
+            unitPosition.y = Mathf.Sin(angle);
 
             vertices.Add(unitPosition * realRadius + center);
             normals.Add(unitPosition);
@@ -97,14 +97,14 @@ public class ProcCylinderCream : MonoBehaviour
                 int p1 = baseIndex - 1;
                 int p2 = baseIndex;
                 int p3 = p0 + 1;
-                indices.AddRange(new List<int> { p0, p1, p2, p2, p3, p0 });
+                indices.AddRange(new List<int> { p0, p2, p1, p0, p3, p2 });
             }
         }
     }
 
-    private void BuildCap(int segemnt, Vector3 center, float radius, bool isTopCap)
+    private void BuildCap(int segemnt, Vector3 center, float radius, bool isRight)
     {
-        Vector3 normal = isTopCap ? Vector3.up : Vector3.down;
+        Vector3 normal = isRight ? Vector3.left : Vector3.right;
 
         // add one vertex in the center
         vertices.Add(center);
@@ -119,17 +119,17 @@ public class ProcCylinderCream : MonoBehaviour
         {
             float angle = anglePerSegment * i;
             Vector3 unitPosition = Vector3.zero;
-            unitPosition.x = Mathf.Cos(angle);
-            unitPosition.z = Mathf.Sin(angle);
+            unitPosition.z = Mathf.Cos(angle);
+            unitPosition.y = Mathf.Sin(angle);
 
             vertices.Add(unitPosition * radius + center);
             normals.Add(unitPosition);
-            uv.Add(new Vector2(unitPosition.x + 1.0f, unitPosition.z + 1.0f) * 0.5f);
+            uv.Add(new Vector2(unitPosition.z + 1.0f, unitPosition.y + 1.0f) * 0.5f);
 
             if (i > 0)
             {
                 int baseIndex = vertices.Count - 1;
-                if (isTopCap)
+                if (isRight)
                 {
                     indices.AddRange(new List<int> { baseIndex, baseIndex - 1, centerVertexIndex });
                 }

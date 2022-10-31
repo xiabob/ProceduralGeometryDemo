@@ -7,18 +7,20 @@ public class ProcCylinderCream : MonoBehaviour
     [SerializeField] private MeshFilter m_MeshFilter;
     [SerializeField] private bool m_SupportLight;
     [SerializeField] private int m_RadialSegmentCount = 20;
-    [SerializeField] private int m_HeightSegmentCount = 40;
     [SerializeField] private float m_Radius = 1;
     [SerializeField] private float m_CreamConcaveValue = 0.3f;
     [SerializeField] private AnimationCurve m_CreamConcaveValueCurve;
     [SerializeField] private AnimationCurve m_RadiusCurve;
     [SerializeField] private float m_Height = 6;
+    [SerializeField] private int m_HeightSegmentCountPerHeight = 7;
+    [SerializeField] private int m_CirclePerHeight = 6;
 
     List<Vector3> vertices = new List<Vector3>();
     List<Vector3> normals = new List<Vector3>();
     List<Vector2> uv = new List<Vector2>();
     List<int> indices = new List<int>();
     private Mesh mesh;
+    private int m_HeightSegmentCount = 40;
 
     // Start is called before the first frame update
     void Start()
@@ -38,7 +40,9 @@ public class ProcCylinderCream : MonoBehaviour
         uv.Clear();
         indices.Clear();
 
-        float ringVertexOffset = Mathf.PI * 2 / m_HeightSegmentCount;
+        m_HeightSegmentCount = (int)(m_HeightSegmentCountPerHeight * m_Height);
+        float circle = Mathf.PI * 2 * m_Height / m_CirclePerHeight;
+        float ringVertexOffset = circle / m_HeightSegmentCount;
 
         for (int i = 0; i <= m_HeightSegmentCount; i++)
         {

@@ -847,7 +847,6 @@ MonoBehaviour:
   m_MeshFilter: {fileID: 1311450441}
   m_SupportLight: 1
   m_RadialSegmentCount: 20
-  m_HeightSegmentCount: 80
   m_Radius: 1
   m_CreamConcaveValue: 0.18
   m_CreamConcaveValueCurve:
@@ -953,6 +952,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   m_Height: 6
+  m_HeightSegmentCountPerHeight: 7
+  m_CirclePerHeight: 6
 --- !u!23 &1311450440
 MeshRenderer:
   m_ObjectHideFlags: 0

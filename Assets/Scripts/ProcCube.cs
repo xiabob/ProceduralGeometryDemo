@@ -40,8 +40,11 @@ public class ProcCube : MonoBehaviour
         Vector3 rightDir = Vector3.right * m_Width;
         Vector3 forwardDir = Vector3.forward * m_Length;
 
-        Vector3 nearCorner = Vector3.zero;
-        Vector3 farCorner = upDir + rightDir + forwardDir;
+        // Vector3 farCorner = upDir + rightDir + forwardDir;
+        // Vector3 nearCorner = Vector3.zero;
+
+        Vector3 farCorner = (upDir + rightDir + forwardDir) * 0.5f;
+        Vector3 nearCorner = -farCorner;
 
         BuildQuad(nearCorner, forwardDir, rightDir);
         BuildQuad(nearCorner, rightDir, upDir);

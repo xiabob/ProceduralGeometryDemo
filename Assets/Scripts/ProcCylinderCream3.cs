@@ -24,18 +24,27 @@ public class ProcCylinderCream3 : MonoBehaviour
     List<int> indices = new List<int>();
     private Mesh mesh;
     private float m_HeightSegmentCount = 40;
-    private Vector3 m_CenterOffset;
+    private float m_OffsetStartPoint;
+    private float m_CenterOffset;
     private float m_Speed;
+    private float m_OriginRadius, m_OriginCreamConcaveValue, m_OriginHeight;
+    private bool m_DidPrepare;
 
     // Start is called before the first frame update
     void Start()
     {
+        m_OriginRadius = m_Radius;
+        m_OriginCreamConcaveValue = m_CreamConcaveValue;
+        m_OriginHeight = m_Height;
+        m_OffsetStartPoint = m_Height;
 
+        m_Radius *= 0.1f;
+        m_CreamConcaveValue *= 0.1f;
+        m_Height *= 0.1f;
     }
 
     private void Update()
     {
-        BuildCylinder();
         if (Input.GetMouseButtonDown(0))
         {
             m_Speed = m_HeightIncreaseValueForAnimation;
@@ -45,16 +54,34 @@ public class ProcCylinderCream3 : MonoBehaviour
             m_Speed = 0;
         }
 
-        if (m_Speed > 0)
+        if (!m_DidPrepare && m_Speed > 0)
         {
+            float delta = Time.fixedDeltaTime * 1f / 10;
+            m_Radius += delta * m_OriginRadius;
+            m_CreamConcaveValue += delta * m_OriginCreamConcaveValue;
+            m_Height += delta * m_OriginHeight;
+
+            if (m_Radius >= m_OriginRadius)
+            {
+                m_Radius = m_OriginRadius;
+                m_DidPrepare = true;
+            }
+
+            BuildCylinder();
+        }
+
+        if (m_DidPrepare && m_Speed > 0)
+        {
+            m_CenterOffset += m_Speed;
             m_Height += m_Speed;
+
+            BuildCylinder();
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         var position = other.ClosestPointOnBounds(transform.position);
-        m_CenterOffset = position;
         Debug.LogError("xxxx " + position.ToString());
     }
 

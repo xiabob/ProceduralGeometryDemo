@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using BezierSolution;
 
-public class ProcCylinderCream2 : MonoBehaviour
+public class ProcCylinderCream3 : MonoBehaviour
 {
     [SerializeField] private MeshFilter m_MeshFilter;
     [SerializeField] private bool m_SupportLight;
@@ -16,8 +16,7 @@ public class ProcCylinderCream2 : MonoBehaviour
     [SerializeField] private int m_HeightSegmentCountPerHeight = 7;
     [SerializeField] private float m_HeightIncreaseValueForAnimation = 1f / 80;
     [SerializeField] private float m_RingCircleDegree = 30;
-    [SerializeField] private BezierSpline m_BezierSpline;
-    [SerializeField] private float m_SplineMaxHeight = 2;
+    [SerializeField] private MeshCollider m_Collider;
 
     List<Vector3> vertices = new List<Vector3>();
     List<Vector3> normals = new List<Vector3>();
@@ -25,6 +24,7 @@ public class ProcCylinderCream2 : MonoBehaviour
     List<int> indices = new List<int>();
     private Mesh mesh;
     private float m_HeightSegmentCount = 40;
+    private Vector3 m_CenterOffset;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +36,13 @@ public class ProcCylinderCream2 : MonoBehaviour
     {
         BuildCylinder();
         m_Height += m_HeightIncreaseValueForAnimation;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        var position = other.ClosestPointOnBounds(transform.position);
+        m_CenterOffset = position;
+        Debug.LogError("xxxx " + position.ToString());
     }
 
     private void BuildCylinder()
@@ -52,20 +59,8 @@ public class ProcCylinderCream2 : MonoBehaviour
         {
             float progress = i * 1.0f / m_HeightSegmentCount;
 
-            var centerPos = Vector3.left * progress * m_Height;
+            var centerPos = Vector3.left * progress * m_Height - m_CenterOffset;
             var rotation = Quaternion.identity;
-            // var splineValue = m_BezierSpline.GetPoint(1) - m_BezierSpline.GetPoint(0);
-            // var splineOffset = m_BezierSpline.GetPoint(progress) - m_BezierSpline.GetPoint(0);
-            // var splineLength = m_BezierSpline.GetLengthApproximately(0, 1);
-            // Vector3 centerPos = Vector3.zero;
-            // centerPos.x = splineOffset.x / splineValue.x * m_Height;
-            // centerPos.y = splineOffset.y / splineValue.y * (splineValue.y / splineLength * m_SplineMaxHeight);
-            // var currentNormal = m_BezierSpline.GetNormal(progress);
-            // var radians = Mathf.Atan2(currentNormal.x, currentNormal.y);
-            // float zAngle = radians * Mathf.Rad2Deg;
-            // var rotation = Quaternion.Euler(0, 0, zAngle);
-
-
 
             var radius = m_RadiusCurve.Evaluate(progress) * m_Radius;
             var offset = ringCircleDegree * i;
@@ -187,6 +182,6 @@ public class ProcCylinderCream2 : MonoBehaviour
         }
 
         m_MeshFilter.sharedMesh = mesh;
+        m_Collider.sharedMesh = mesh;
     }
-
 }

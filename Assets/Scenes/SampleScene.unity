@@ -1620,7 +1620,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1541267527}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 4.37, z: 0}
+  m_LocalPosition: {x: 0, y: 4, z: 0}
   m_LocalScale: {x: 100, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1692,25 +1692,52 @@ MonoBehaviour:
   m_SupportLight: 1
   m_RadialSegmentCount: 20
   m_Radius: 1
-  m_CreamConcaveValue: 0.18
+  m_CreamConcaveValue: 0.2
   m_CreamConcaveValueCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
+      value: 0
+      inSlope: 9.585773
+      outSlope: 9.585773
       tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.042523604
+    - serializedVersion: 3
+      time: 0.20568237
+      value: 0.98906326
+      inSlope: 0.0065997965
+      outSlope: 0.0065997965
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.103498526
+    - serializedVersion: 3
+      time: 0.5
+      value: 1
+      inSlope: 0.01857982
+      outSlope: 0.01857982
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 1
+      time: 0.9
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -0.010447849
+      outSlope: -0.010447849
       tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.1089649
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -9.999998
+      outSlope: -9.999998
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
@@ -1721,29 +1748,74 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
+      time: 0.0021896362
+      value: 0
+      inSlope: 2.5828586
+      outSlope: 2.5828586
       tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.1590566
+    - serializedVersion: 3
+      time: 0.13698287
+      value: 0.23826867
+      inSlope: 1.3411628
+      outSlope: 1.3411628
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.12687324
+    - serializedVersion: 3
+      time: 0.38872847
+      value: 0.7096888
+      inSlope: 1.5796092
+      outSlope: 1.5796092
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
+      time: 0.5589041
+      value: 0.928639
+      inSlope: 0.45165336
+      outSlope: 0.45165336
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0.11079191
+      outWeight: 0.13168351
+    - serializedVersion: 3
+      time: 0.8047346
+      value: 0.84862566
+      inSlope: -1.2083544
+      outSlope: -1.2083544
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.24126644
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.8814392
+      value: 0.6908326
+      inSlope: -2.506507
+      outSlope: -2.506507
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.06910113
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -11.85191
+      outSlope: -11.85191
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.055206824
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_Height: 2
+  m_Height: 2.4
   m_HeightSegmentCountPerHeight: 7
-  m_HeightIncreaseValueForAnimation: 0
+  m_HeightIncreaseValueForAnimation: 0.0125
   m_RingCircleDegree: 4
   m_Collider: {fileID: 1740564753}
 --- !u!23 &1740564750
@@ -1804,7 +1876,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1740564747}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5.18, z: 0}
+  m_LocalPosition: {x: 0, y: 6.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

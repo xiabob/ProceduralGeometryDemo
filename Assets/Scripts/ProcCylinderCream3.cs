@@ -25,6 +25,7 @@ public class ProcCylinderCream3 : MonoBehaviour
     private Mesh mesh;
     private float m_HeightSegmentCount = 40;
     private Vector3 m_CenterOffset;
+    private float m_Speed;
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +36,19 @@ public class ProcCylinderCream3 : MonoBehaviour
     private void Update()
     {
         BuildCylinder();
-        m_Height += m_HeightIncreaseValueForAnimation;
+        if (Input.GetMouseButtonDown(0))
+        {
+            m_Speed = m_HeightIncreaseValueForAnimation;
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            m_Speed = 0;
+        }
+
+        if (m_Speed > 0)
+        {
+            m_Height += m_Speed;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -59,7 +72,7 @@ public class ProcCylinderCream3 : MonoBehaviour
         {
             float progress = i * 1.0f / m_HeightSegmentCount;
 
-            var centerPos = Vector3.left * progress * m_Height - m_CenterOffset;
+            var centerPos = Vector3.down * progress * m_Height;
             var rotation = Quaternion.identity;
 
             var radius = m_RadiusCurve.Evaluate(progress) * m_Radius;
@@ -67,14 +80,14 @@ public class ProcCylinderCream3 : MonoBehaviour
             var concaveValue = m_CreamConcaveValueCurve.Evaluate(progress) * m_CreamConcaveValue;
             BuildRing(m_RadialSegmentCount, centerPos, radius, progress, i > 0, offset, concaveValue, rotation);
 
-            if (i == 0)
-            {
-                BuildCap(m_RadialSegmentCount, centerPos, radius, true, offset, concaveValue, rotation);
-            }
-            else if (i >= m_HeightSegmentCount)
-            {
-                BuildCap(m_RadialSegmentCount, centerPos, radius, false, offset, concaveValue, rotation);
-            }
+            // if (i == 0)
+            // {
+            //     BuildCap(m_RadialSegmentCount, centerPos, radius, true, offset, concaveValue, rotation);
+            // }
+            // else if (i >= m_HeightSegmentCount)
+            // {
+            //     BuildCap(m_RadialSegmentCount, centerPos, radius, false, offset, concaveValue, rotation);
+            // }
         }
 
 
@@ -95,8 +108,8 @@ public class ProcCylinderCream3 : MonoBehaviour
 
             float angle = anglePerSegment * i + offset;
             Vector3 unitPosition = Vector3.zero;
-            unitPosition.z = Mathf.Cos(angle);
-            unitPosition.y = Mathf.Sin(angle);
+            unitPosition.x = Mathf.Cos(angle);
+            unitPosition.z = Mathf.Sin(angle);
 
             unitPosition = rotation * unitPosition;
 
@@ -118,9 +131,9 @@ public class ProcCylinderCream3 : MonoBehaviour
         }
     }
 
-    private void BuildCap(int segemnt, Vector3 center, float radius, bool isRight, float offset, float concaveValue, Quaternion rotation)
+    private void BuildCap(int segemnt, Vector3 center, float radius, bool isTopCap, float offset, float concaveValue, Quaternion rotation)
     {
-        Vector3 normal = isRight ? Vector3.left : Vector3.right;
+        Vector3 normal = isTopCap ? Vector3.up : Vector3.down;
 
         // add one vertex in the center
         vertices.Add(center);
@@ -141,19 +154,19 @@ public class ProcCylinderCream3 : MonoBehaviour
 
             float angle = anglePerSegment * i + offset;
             Vector3 unitPosition = Vector3.zero;
-            unitPosition.z = Mathf.Cos(angle);
-            unitPosition.y = Mathf.Sin(angle);
+            unitPosition.x = Mathf.Cos(angle);
+            unitPosition.z = Mathf.Sin(angle);
 
             unitPosition = rotation * unitPosition;
 
             vertices.Add(unitPosition * realRadius + center);
             normals.Add(unitPosition);
-            uv.Add(new Vector2(unitPosition.z + 1.0f, unitPosition.y + 1.0f) * 0.5f);
+            uv.Add(new Vector2(unitPosition.x + 1.0f, unitPosition.z + 1.0f) * 0.5f);
 
             if (i > 0)
             {
                 int baseIndex = vertices.Count - 1;
-                if (isRight)
+                if (isTopCap)
                 {
                     indices.AddRange(new List<int> { baseIndex, baseIndex - 1, centerVertexIndex });
                 }
